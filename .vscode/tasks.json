@@ -5,7 +5,7 @@
             "label": "run",
             "type": "shell",
             // `qemu-riscv64 2>&1` redirect stderr to stdout because vscode doesn't capture task output
-            "command": "cargo b --bin $binary && qemu-riscv64 2>&1 target/riscv64gc-unknown-none-elf/debug/$binary",
+            "command": "${workspaceFolder}/run_.sh $binary",
             "options": {
                 "env": {
                     "binary": "panic"
