@@ -1,24 +1,11 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
             "label": "run helloworld",
             "type": "shell",
-            "command": "cargo b --bin helloworld && qemu-riscv64 2>&1 target/riscv64gc-unknown-none-elf/debug/helloworld",
-            "problemMatcher": {
-                "fileLocation": ["relative", "${workspaceFolder}"],
-                "pattern": {
-                  "regexp": "^(.*)$",
-                  "file": 1
-                }
-              },
-              "presentation": {
-                "reveal": "always",
-                "panel": "shared",
-                "focus": true
-              },
+            // `qemu-riscv64 2>&1` redirect stderr to stdout because vscode doesn't capture task output
+            "command": "cargo b --bin helloworld && qemu-riscv64 2>&1 target/riscv64gc-unknown-none-elf/debug/helloworld"
         }
     ]
 }
