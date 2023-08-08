@@ -1,4 +1,5 @@
 #![no_std]
+#![feature(panic_info_message)]
 
 /*
 ```
@@ -51,15 +52,22 @@ pub fn print<T: AsRef<[u8]>>(buf: T) {
 #[panic_handler]
 fn panic_handler(p: &core::panic::PanicInfo) -> ! {
     if let Some(loc) = p.location() {
-        print("panic location\n");
+        print("panic `");
+        let msg = p
+            .message()
+            .map(|x| x.as_str().unwrap_or_default())
+            .unwrap_or_default();
+        print(msg);
+        print("` at ");
         print(loc.file());
-        print("\n");
+        print(":");
         let mut line = loc.line();
         let mut num = [0u8; 8];
         let mut idx = num.len() - 1;
         while line != 0 {
             num[idx] = b'0' + (line % 10) as u8;
             idx -= 1;
+            line /= 10;
         }
         for num in num {
             if num > 0 {
@@ -68,9 +76,9 @@ fn panic_handler(p: &core::panic::PanicInfo) -> ! {
         }
         print("\n");
     } else {
-        print("no panic location")
+        print("no panic location\n");
     };
     exit(1);
-    print("unreachable");
+    print("unreachable\n");
     loop {}
 }
