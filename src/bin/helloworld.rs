@@ -1,10 +1,12 @@
 #![no_std]
+#![no_main]
 
 #[panic_handler]
-fn foo(p: &core::panic::PanicInfo) -> ! {
+fn panic_handler(p: &core::panic::PanicInfo) -> ! {
     loop {}
 }
 
-fn main() {
+#[no_mangle]
+fn _start() {
     
 }
